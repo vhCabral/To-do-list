@@ -1,40 +1,21 @@
-package br.com.victorcabral.desafio_todolist.entity;
+package br.com.victorcabral.desafio_todolist.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import br.com.victorcabral.desafio_todolist.entity.Todo;
+import org.springframework.beans.BeanUtils;
 
-@Entity
-@Table(name = "todos")
-public class Todo {
+public class TodoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
     private String nome;
-
-    @Column(columnDefinition = "TEXT")
-    @NotNull
     private String descricao;
-    @NotNull
     private boolean realizado;
-    @Min(1)
-    @Max(3)
     private int prioridade;
 
-
-    public Todo(){
+    public TodoDTO(){
     }
 
-    public Todo(Long id, String nome, String descricao, boolean realizado, int prioridade) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.realizado = realizado;
-        this.prioridade = prioridade;
+    public TodoDTO(Todo entity){
+        BeanUtils.copyProperties(entity, this);
     }
 
     public Long getId() {
@@ -76,6 +57,4 @@ public class Todo {
     public void setPrioridade(int prioridade) {
         this.prioridade = prioridade;
     }
-
-
 }

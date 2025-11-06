@@ -1,5 +1,6 @@
 package br.com.victorcabral.desafio_todolist.service;
 
+import br.com.victorcabral.desafio_todolist.dto.TodoDTO;
 import br.com.victorcabral.desafio_todolist.entity.Todo;
 import br.com.victorcabral.desafio_todolist.repository.TodoRepository;
 import org.springframework.data.domain.Sort;
@@ -16,22 +17,26 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public List<Todo> create(Todo todo){
+    public List<TodoDTO> create(Todo todo){
         todoRepository.save(todo);
         return list();
     }
 
-    public List<Todo> list(){
-        Sort sort = Sort.by("prioridade").descending().and(Sort.by("nome").ascending());
-        return todoRepository.findAll(sort);
+    public List<TodoDTO> list(){
+
+        return todoRepository.findAll(Sort.by("prioridade").descending().and(Sort.by("nome").ascending()))
+                .stream().map(TodoDTO::new).toList();
+
+        //Sort sort = Sort.by("prioridade").descending().and(Sort.by("nome").ascending());
+        //return todoRepository.findAll(sort);
     }
 
-    public List<Todo> update(Todo todo){
+    public List<TodoDTO> update(Todo todo){
         todoRepository.save(todo);
         return list();
     }
 
-    public List<Todo> delete(Long id){
+    public List<TodoDTO> delete(Long id){
         todoRepository.deleteById(id);
         return list();
     }
